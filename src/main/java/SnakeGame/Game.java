@@ -12,6 +12,16 @@ import javax.swing.*;
 public class Game extends JFrame implements KeyListener, ActionListener {
 
     Snake snake;
+    private static final int VIRTUAL_RIGHT_KEY_CODE = 39;
+    private static final int VIRTUAL_LEFT_KEY_CODE = 37;
+    private static final int VIRTUAL_UP_KEY_CODE = 38;
+    private static final int VIRTUAL_DOWN_KEY_CODE = 40;
+    private static final int W_KEY_CODE = 87;
+    private static final int A_KEY_CODE = 65;
+    private static final int S_KEY_CODE = 83;
+    private static final int D_KEY_CODE = 68;
+
+
 
     public Game() {
         // create the snake
@@ -24,7 +34,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         // timer for drawing apples on the screen
         java.util.Timer drawApples = new java.util.Timer();
         Apple st = new Apple(this.snake);
-        drawApples.schedule(st,0,3000);
+        drawApples.schedule(st,0,300);
 
         // window creation & drawing
         add(this.snake);
@@ -47,21 +57,20 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        int c = e.getKeyCode();
-
-        if (c == 39 && !this.snake.getDirection().equals("left")) {
+        int keyCode = e.getKeyCode();
+        if ((keyCode == VIRTUAL_RIGHT_KEY_CODE || keyCode == D_KEY_CODE) && !this.snake.getDirection().equals("left")) {
             this.snake.setDirection("right"); // right arrow pressed
         }
 
-        else if (c == 37 && !this.snake.getDirection().equals("right")) {
+        else if ((keyCode == VIRTUAL_LEFT_KEY_CODE || keyCode == A_KEY_CODE) && !this.snake.getDirection().equals("right")) {
             this.snake.setDirection("left"); // left arrow pressed
         }
 
-        else if (c == 38 && !this.snake.getDirection().equals("down")) {
+        else if ((keyCode == VIRTUAL_UP_KEY_CODE || keyCode == W_KEY_CODE) && !this.snake.getDirection().equals("down")) {
             this.snake.setDirection("up"); // up arrow pressed
         }
 
-        else if (c == 40 && !this.snake.getDirection().equals("up")) {
+        else if ((keyCode == VIRTUAL_DOWN_KEY_CODE || keyCode == S_KEY_CODE) && !this.snake.getDirection().equals("up")) {
             this.snake.setDirection("down"); // down arrow pressed
         }
     }
