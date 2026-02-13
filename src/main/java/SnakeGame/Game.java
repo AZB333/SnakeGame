@@ -39,7 +39,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         // window creation & drawing
         add(this.snake);
         setTitle("Snake Game");
-        setSize(525, 525);
+        setSize(610, 610);
         this.addKeyListener(this);
         setLocationRelativeTo(null);
         setVisible(true);

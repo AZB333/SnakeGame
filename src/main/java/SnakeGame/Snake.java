@@ -11,7 +11,7 @@ import static SnakeGame.Rectangle.rec_width;
 
 public class Snake extends JPanel {
 
-    private static final Color c = new Color(115,162,78);
+    private static final Color backgroundColor = new Color(43, 86, 137);
     private static final int start = 250;
     private static final int speed = 25;
 
@@ -55,11 +55,11 @@ public class Snake extends JPanel {
     }
 
     public void checkCollision() {
-        Rectangle r3 = this.body.getFirst();
+        Rectangle snakeHead = this.body.getFirst();
         for (int i = 1; i < this.body.size(); i++) {
-            Rectangle r2 = this.body.get(i);
+            Rectangle bodyRectangle = this.body.get(i);
 
-            if (r3.intersects(r2)) {
+            if (snakeHead.intersects(bodyRectangle)) {
                 System.out.println("You lose!");
                 this.window.setVisible(false);
 
@@ -72,7 +72,7 @@ public class Snake extends JPanel {
         }
 
         if (this.apple != null) {
-            if (r3.intersects(new Rectangle(this.apple.getPosx(),this.apple.getPosy()))) {
+            if (snakeHead.intersects(new Rectangle(this.apple.getPosx(),this.apple.getPosy()))) {
                 this.apple = null;
                 this.addPart();
             }
@@ -82,7 +82,7 @@ public class Snake extends JPanel {
 
     public void moveSnake() {
 
-        ArrayList<Rectangle> newLst = new ArrayList<>();
+        ArrayList<Rectangle> movedSnake = new ArrayList<>();
 
         Rectangle first = this.body.getFirst();
         Rectangle head = new Rectangle(first.getPosx(), first.getPosy());
@@ -93,36 +93,36 @@ public class Snake extends JPanel {
             case "up" -> head.setPosy(-speed);
             case "down" -> head.setPosy(speed);
         }
-        newLst.add(head);
+        movedSnake.add(head);
 
         for (int i = 1; i < this.body.size(); i++) {
             Rectangle previous = this.body.get(i-1);
             Rectangle newRec = new Rectangle(previous.getPosx(), previous.getPosy());
-            newLst.add(newRec);
+            movedSnake.add(newRec);
         }
 
 
-        this.body = newLst;
+        this.body = movedSnake;
         checkCollision();
     }
 
-    private void drawSnake(Graphics g) {
+    private void drawSnake(Graphics graphics) {
         moveSnake();
 
         // draw moved snake
-        Graphics2D g2d = (Graphics2D) g;
+        Graphics2D graphics2D = (Graphics2D) graphics;
 
 
         if (this.apple != null) {
-            g2d.setPaint(Color.red);
-            g2d.drawRect(this.apple.getPosx(), this.apple.getPosy(), rec_width, rec_height);
-            g2d.fillRect(this.apple.getPosx(),this.apple.getPosy(),rec_width,rec_height);
+            graphics2D.setPaint(Color.red);
+            graphics2D.drawRect(this.apple.getPosx(), this.apple.getPosy(), rec_width, rec_height);
+            graphics2D.fillRect(this.apple.getPosx(),this.apple.getPosy(),rec_width,rec_height);
         }
 
-        g2d.setPaint(Color.blue);
+        graphics2D.setPaint(Color.blue);
         for (Rectangle rec: this.body) {
-            g2d.drawRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
-            g2d.fillRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
+            graphics2D.drawRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
+            graphics2D.fillRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
         }
     }
 
@@ -135,9 +135,9 @@ public class Snake extends JPanel {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        setBackground(c);
-        drawSnake(g);
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        setBackground(backgroundColor);
+        drawSnake(graphics);
     }
 }
