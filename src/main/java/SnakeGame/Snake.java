@@ -55,7 +55,9 @@ public class Snake extends JPanel {
     }
 
     public boolean checkOutOfBounds(Rectangle snakeHead){
-        return snakeHead.getPosx() > 580 || snakeHead.getPosx() < 0 || snakeHead.getPosy() > 550 || snakeHead.getPosy() < 0;
+        int playableWidth = Game.WINDOW_WIDTH - rec_width;
+        int playableHeight = Game.WINDOW_HEIGHT - rec_height;
+        return snakeHead.getPosx() > playableWidth || snakeHead.getPosx() < 0 || snakeHead.getPosy() > playableHeight || snakeHead.getPosy() < 0;
     }
     public void checkCollision() {
         Rectangle snakeHead = this.body.getFirst();

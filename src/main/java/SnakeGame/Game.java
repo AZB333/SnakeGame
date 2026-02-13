@@ -20,6 +20,8 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     private static final int A_KEY_CODE = 65;
     private static final int S_KEY_CODE = 83;
     private static final int D_KEY_CODE = 68;
+    public static final int WINDOW_WIDTH = 610;
+    public static final int WINDOW_HEIGHT = 610;
 
 
 
@@ -39,7 +41,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         // window creation & drawing
         add(this.snake);
         setTitle("Snake Game");
-        setSize(610, 610);
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.addKeyListener(this);
         setLocationRelativeTo(null);
         setVisible(true);
