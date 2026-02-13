@@ -54,12 +54,18 @@ public class Snake extends JPanel {
         }
     }
 
+    public boolean checkOutOfBounds(Rectangle snakeHead){
+        return snakeHead.getPosx() > 580 || snakeHead.getPosx() < 0 || snakeHead.getPosy() > 550 || snakeHead.getPosy() < 0;
+    }
     public void checkCollision() {
         Rectangle snakeHead = this.body.getFirst();
+        System.out.println(snakeHead.getPosx());
+        System.out.println(snakeHead.getPosy());
+
+
         for (int i = 1; i < this.body.size(); i++) {
             Rectangle bodyRectangle = this.body.get(i);
-
-            if (snakeHead.intersects(bodyRectangle)) {
+            if (snakeHead.intersects(bodyRectangle) || checkOutOfBounds(snakeHead)) {
                 System.out.println("You lose!");
                 this.window.setVisible(false);
 
@@ -108,10 +114,8 @@ public class Snake extends JPanel {
 
     private void drawSnake(Graphics graphics) {
         moveSnake();
-
         // draw moved snake
         Graphics2D graphics2D = (Graphics2D) graphics;
-
 
         if (this.apple != null) {
             graphics2D.setPaint(Color.red);
@@ -119,7 +123,7 @@ public class Snake extends JPanel {
             graphics2D.fillRect(this.apple.getPosx(),this.apple.getPosy(),rec_width,rec_height);
         }
 
-        graphics2D.setPaint(Color.blue);
+        graphics2D.setPaint(Color.green);
         for (Rectangle rec: this.body) {
             graphics2D.drawRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
             graphics2D.fillRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
