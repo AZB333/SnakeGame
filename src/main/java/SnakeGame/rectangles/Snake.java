@@ -26,11 +26,11 @@ public class Snake extends JPanel {
     public Snake(RectangleFactory rectangleFactory) {
         this.rectangleFactory = rectangleFactory;
         this.body = new ArrayList<>();
-        body.add(rectangleFactory.createSnakeBody(START_POSITION_X_Y, START_POSITION_X_Y));
+        body.add(rectangleFactory.createSnakeSegment(START_POSITION_X_Y, START_POSITION_X_Y));
         Rectangle head = this.body.getFirst();
-        body.add(rectangleFactory.createSnakeBody(head.getPosx() - rec_width, head.getPosy()));
+        body.add(rectangleFactory.createSnakeSegment(head.getPosx() - rec_width, head.getPosy()));
         Rectangle behind_head = this.body.get(1);
-        body.add(rectangleFactory.createSnakeBody(behind_head.getPosx() - rec_width, behind_head.getPosy()));
+        body.add(rectangleFactory.createSnakeSegment(behind_head.getPosx() - rec_width, behind_head.getPosy()));
 
         this.direction = "right";
     }
@@ -46,10 +46,10 @@ public class Snake extends JPanel {
     public void addPart() {
         Rectangle tail = body.getLast();
         switch (direction) {
-            case "right" -> body.add(rectangleFactory.createSnakeBody(tail.getPosx() - rec_width, tail.getPosy()));
-            case "left" -> body.add(rectangleFactory.createSnakeBody(tail.getPosx() + rec_width, tail.getPosy()));
-            case "up" -> body.add(rectangleFactory.createSnakeBody(tail.getPosx(), tail.getPosy() + rec_width));
-            case "down" -> body.add(rectangleFactory.createSnakeBody(tail.getPosx(), tail.getPosy() - rec_height));
+            case "right" -> body.add(rectangleFactory.createSnakeSegment(tail.getPosx() - rec_width, tail.getPosy()));
+            case "left" -> body.add(rectangleFactory.createSnakeSegment(tail.getPosx() + rec_width, tail.getPosy()));
+            case "up" -> body.add(rectangleFactory.createSnakeSegment(tail.getPosx(), tail.getPosy() + rec_width));
+            case "down" -> body.add(rectangleFactory.createSnakeSegment(tail.getPosx(), tail.getPosy() - rec_height));
         }
     }
 
@@ -84,7 +84,7 @@ public class Snake extends JPanel {
         ArrayList<Rectangle> movedSnake = new ArrayList<>();
 
         Rectangle first = body.getFirst();
-        Rectangle head = rectangleFactory.createSnakeBody(first.getPosx(), first.getPosy());
+        Rectangle head = rectangleFactory.createSnakeSegment(first.getPosx(), first.getPosy());
 
         switch (direction) {
             case "right" -> head.setPosx(DEFAULT_SPEED);
@@ -96,7 +96,7 @@ public class Snake extends JPanel {
 
         for (int i = 1; i < body.size(); i++) {
             Rectangle previous = body.get(i-1);
-            Rectangle newRec = rectangleFactory.createSnakeBody(previous.getPosx(), previous.getPosy());
+            Rectangle newRec = rectangleFactory.createSnakeSegment(previous.getPosx(), previous.getPosy());
             movedSnake.add(newRec);
         }
 
@@ -106,18 +106,16 @@ public class Snake extends JPanel {
     }
 
     private void drawSnake(Graphics graphics) {
-        moveSnake();
-        // draw moved snake
         Graphics2D graphics2D = (Graphics2D) graphics;
 
         if (apple != null) {
-            graphics2D.setPaint(Color.red);
+            graphics2D.setPaint(apple.getColor());
             graphics2D.drawRect(apple.getPosx(), apple.getPosy(), rec_width, rec_height);
             graphics2D.fillRect(apple.getPosx(),apple.getPosy(),rec_width,rec_height);
         }
 
-        graphics2D.setPaint(Color.green);
         for (Rectangle rec: body) {
+            graphics2D.setPaint(rec.getColor());
             graphics2D.drawRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
             graphics2D.fillRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
         }

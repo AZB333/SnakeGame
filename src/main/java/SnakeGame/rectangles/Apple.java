@@ -1,34 +1,16 @@
 package SnakeGame.rectangles;
 
-import SnakeGame.IRectangle;
+import java.awt.*;
 
-import java.util.Random;
-import java.util.TimerTask;
+public class Apple extends Rectangle {
 
-public class Apple extends Rectangle implements IRectangle {
+    private static final Color color = Color.red;
 
-
-    private int posx;
-    private int posy;
-    private Snake snake;
-
-
-    public int getPosx() {
-        return posx;
+    public Apple(int posx, int posy) {
+        super(posx, posy);
     }
 
-    public int getPosy() {
-        return posy;
-    }
-
-    public void setPosx(int increment) { this.posx = this.posx + increment; }
-
-    public void setPosy(int increment) { this.posy =  this.posy + increment; }
-
-
-    public Apple(Snake snake) {
-        super(25 * new Random().nextInt(20), 25 * new Random().nextInt(20));
-        this.snake = snake;
-    }
+    @Override
+    public Color getColor(){return color;}
 
 }

@@ -7,11 +7,12 @@ import SnakeGame.rectangles.Snake;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 import javax.swing.*;
 
 //so far we can implement observer pattern, factory pattern, singleton pattern
 //maybe can do snake builder, or have a snake customization window for more factory and builder
-//need one more pattern
+//need one more pattern, perchance strategy pattern since apple doesn't need the rest of rectangle
 public class Game extends JFrame implements KeyListener, ActionListener {
 
     Snake snake;
@@ -26,6 +27,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     public static final int WINDOW_WIDTH = 610;
     public static final int WINDOW_HEIGHT = 610;
     private final RectangleFactory rectangleFactory = new RectangleFactory();
+    private final Random random = new Random();
 
 
     public Game() {
@@ -33,7 +35,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         this.snake = new Snake(rectangleFactory);
 
         // timer for redrawing the screen
-        Timer timer = new Timer(150, this);
+        Timer timer = new Timer(200, this);
         timer.start();
 
         // window creation & drawing
@@ -93,6 +95,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         }
     }
 
+    public int getRandomPosition(){return 25 * random.nextInt(20);}
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         // redraw the screen
@@ -101,10 +106,13 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             return;
         }
 
-        if (snake.getApple() == null) {
-            Rectangle apple = rectangleFactory.createApple(snake);
-            snake.setApple(apple);
 
+        if (snake.getApple() == null) {
+            int x = getRandomPosition();
+            int y = getRandomPosition();
+
+            Rectangle apple = rectangleFactory.createApple(x, y);
+            snake.setApple(apple);
         }
 
         snake.moveSnake();

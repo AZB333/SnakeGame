@@ -1,10 +1,9 @@
 package SnakeGame.rectangles;
 
-
-import SnakeGame.IRectangle;
+import java.awt.*;
 
 //make this abstract, snake is a list of this, apple is this, make factory for this
-public class Rectangle implements IRectangle {
+public class Rectangle {
 
     private int posx;
     private int posy;
@@ -25,9 +24,11 @@ public class Rectangle implements IRectangle {
         return posx == obstacle.getPosx() && posy == obstacle.getPosy();
     }
 
+    Color getColor(){return Color.green;}
+
 
     public int getPosx() {
-        return this.posx;
+        return posx;
     }
 
     public int getPosy() {
