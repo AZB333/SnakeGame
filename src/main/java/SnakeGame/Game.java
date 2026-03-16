@@ -1,11 +1,17 @@
 package SnakeGame;
 
 
+import SnakeGame.rectangles.Rectangle;
+import SnakeGame.rectangles.RectangleFactory;
+import SnakeGame.rectangles.Snake;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-
+//so far we can implement observer pattern, factory pattern, singleton pattern
+//maybe can do snake builder, or have a snake customization window for more factory and builder
+//need one more pattern
 public class Game extends JFrame implements KeyListener, ActionListener {
 
     Snake snake;
@@ -19,21 +25,16 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     private static final int D_KEY_CODE = 68;
     public static final int WINDOW_WIDTH = 610;
     public static final int WINDOW_HEIGHT = 610;
-
+    private final RectangleFactory rectangleFactory = new RectangleFactory();
 
 
     public Game() {
         // create the snake
-        this.snake = new Snake(this);
+        this.snake = new Snake(rectangleFactory);
 
         // timer for redrawing the screen
         Timer timer = new Timer(150, this);
         timer.start();
-
-        // timer for drawing apples on the screen
-        java.util.Timer drawApples = new java.util.Timer();
-        Apple apple = new Apple(snake);
-        drawApples.schedule(apple,0,250);
 
         // window creation & drawing
         add(snake);
@@ -98,6 +99,12 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         if (isOver()) {
             play();
             return;
+        }
+
+        if (snake.getApple() == null) {
+            Rectangle apple = rectangleFactory.createApple(snake);
+            snake.setApple(apple);
+
         }
 
         snake.moveSnake();

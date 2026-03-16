@@ -1,5 +1,7 @@
-package SnakeGame;
+package SnakeGame.rectangles;
 
+
+import SnakeGame.IRectangle;
 
 //make this abstract, snake is a list of this, apple is this, make factory for this
 public class Rectangle implements IRectangle {
@@ -15,7 +17,7 @@ public class Rectangle implements IRectangle {
         this.posy = posy;
     }
 
-    public boolean intersects(IRectangle obstacle) {
+    public boolean intersects(Rectangle obstacle) {
         /*
         return true if x and y coordinates of
         this and obstacle are the same
