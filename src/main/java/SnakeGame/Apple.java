@@ -3,7 +3,7 @@ package SnakeGame;
 import java.util.Random;
 import java.util.TimerTask;
 
-public class Apple extends TimerTask {
+public class Apple extends TimerTask implements IRectangle {
 
 
     private int posx;
@@ -19,8 +19,18 @@ public class Apple extends TimerTask {
         return posy;
     }
 
+    public void setPosx(int increment) { this.posx = this.posx + increment; }
+
+    public void setPosy(int increment) { this.posy =  this.posy + increment; }
+
+
     public Apple(Snake snake) {
         this.snake = snake;
+    }
+    public Apple(Snake snake, int posx, int posy){
+        this.snake = snake;
+        this.posx = posx;
+        this.posy = posy;
     }
 
     public Apple() {

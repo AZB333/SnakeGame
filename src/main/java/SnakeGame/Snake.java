@@ -11,32 +11,28 @@ import static SnakeGame.Rectangle.rec_width;
 
 public class Snake extends JPanel {
 
-    private static final Color backgroundColor = new Color(43, 86, 137);
-    private static final int start = 250;
-    private static final int speed = 25;
-
+    private static final Color BACKGROUND_COLOR = new Color(43, 86, 137);
+    private static final int START_POSITION_X_Y = 250;
+    private static final int DEFAULT_SPEED = 25;
     private ArrayList<Rectangle> body;
 
     private String direction;
 
     private Apple apple;
 
-    private final Game window;
-
-
     public Snake(Game window) {
-        this.window = window;
 
         this.body = new ArrayList<>();
-        body.add(new Rectangle(start, start));
-        Rectangle last = this.body.get(0);
-        body.add(new Rectangle(last.getPosx() - rec_width, last.getPosy()));
-        Rectangle last_2 = this.body.get(1);
-        body.add(new Rectangle(last_2.getPosx() - rec_width, last_2.getPosy()));
+        body.add(new Rectangle(START_POSITION_X_Y, START_POSITION_X_Y));
+        Rectangle head = this.body.getFirst();
+        body.add(new Rectangle(head.getPosx() - rec_width, head.getPosy()));
+        Rectangle behind_head = this.body.get(1);
+        body.add(new Rectangle(behind_head.getPosx() - rec_width, behind_head.getPosy()));
 
         this.direction = "right";
     }
 
+    public ArrayList<Rectangle> getBody() {return new ArrayList<>(body); }
     public void setDirection(String direction) {
         this.direction = direction;
     }
@@ -45,12 +41,12 @@ public class Snake extends JPanel {
     }
 
     public void addPart() {
-        Rectangle last = this.body.getLast();
-        switch (this.direction) {
-            case "right" -> this.body.add(new Rectangle(last.getPosx() - rec_width, last.getPosy()));
-            case "left" -> this.body.add(new Rectangle(last.getPosx() + rec_width, last.getPosy()));
-            case "up" -> this.body.add(new Rectangle(last.getPosx() , last.getPosy() + rec_width));
-            case "down" -> this.body.add(new Rectangle(last.getPosx(), last.getPosy()  - rec_width));
+        Rectangle tail = body.getLast();
+        switch (direction) {
+            case "right" -> body.add(new Rectangle(tail.getPosx() - rec_width, tail.getPosy()));
+            case "left" -> body.add(new Rectangle(tail.getPosx() + rec_width, tail.getPosy()));
+            case "up" -> body.add(new Rectangle(tail.getPosx() , tail.getPosy() + rec_width));
+            case "down" -> body.add(new Rectangle(tail.getPosx(), tail.getPosy()  - rec_width));
         }
     }
 
@@ -59,32 +55,24 @@ public class Snake extends JPanel {
         int playableHeight = Game.WINDOW_HEIGHT - rec_height;
         return snakeHead.getPosx() > playableWidth || snakeHead.getPosx() < 0 || snakeHead.getPosy() > playableHeight || snakeHead.getPosy() < 0;
     }
-    public void checkCollision() {
-        Rectangle snakeHead = this.body.getFirst();
-        System.out.println(snakeHead.getPosx());
-        System.out.println(snakeHead.getPosy());
+    public boolean checkCollision() {
+        Rectangle snakeHead = body.getFirst();
 
-
-        for (int i = 1; i < this.body.size(); i++) {
-            Rectangle bodyRectangle = this.body.get(i);
+        for (int bodyIndex = 1; bodyIndex < body.size(); bodyIndex++) {
+            Rectangle bodyRectangle = body.get(bodyIndex);
             if (snakeHead.intersects(bodyRectangle) || checkOutOfBounds(snakeHead)) {
-                System.out.println("You lose!");
-                this.window.setVisible(false);
-
-                JFrame parent = new JFrame("Game over!");
-                JOptionPane.showMessageDialog(parent, "Your score: " + this.body.size());
-
-                this.window.dispatchEvent(new WindowEvent(this.window, WindowEvent.WINDOW_CLOSING));
-                System.exit(0);
+                return false;
             }
         }
-
-        if (this.apple != null) {
-            if (snakeHead.intersects(new Rectangle(this.apple.getPosx(),this.apple.getPosy()))) {
-                this.apple = null;
+        if (apple != null) { //apple collision
+            //observer moment
+            if(snakeHead.intersects(apple)){
+                EventBus.getInstance().postMessage("Apple Eaten");
+                apple = null;
                 this.addPart();
             }
         }
+        return true;
 
     }
 
@@ -92,25 +80,25 @@ public class Snake extends JPanel {
 
         ArrayList<Rectangle> movedSnake = new ArrayList<>();
 
-        Rectangle first = this.body.getFirst();
+        Rectangle first = body.getFirst();
         Rectangle head = new Rectangle(first.getPosx(), first.getPosy());
 
-        switch (this.direction) {
-            case "right" -> head.setPosx(speed);
-            case "left" -> head.setPosx(-speed);
-            case "up" -> head.setPosy(-speed);
-            case "down" -> head.setPosy(speed);
+        switch (direction) {
+            case "right" -> head.setPosx(DEFAULT_SPEED);
+            case "left" -> head.setPosx(-DEFAULT_SPEED);
+            case "up" -> head.setPosy(-DEFAULT_SPEED);
+            case "down" -> head.setPosy(DEFAULT_SPEED);
         }
         movedSnake.add(head);
 
-        for (int i = 1; i < this.body.size(); i++) {
-            Rectangle previous = this.body.get(i-1);
+        for (int i = 1; i < body.size(); i++) {
+            Rectangle previous = body.get(i-1);
             Rectangle newRec = new Rectangle(previous.getPosx(), previous.getPosy());
             movedSnake.add(newRec);
         }
 
 
-        this.body = movedSnake;
+        body = movedSnake;
         checkCollision();
     }
 
@@ -119,14 +107,14 @@ public class Snake extends JPanel {
         // draw moved snake
         Graphics2D graphics2D = (Graphics2D) graphics;
 
-        if (this.apple != null) {
+        if (apple != null) {
             graphics2D.setPaint(Color.red);
-            graphics2D.drawRect(this.apple.getPosx(), this.apple.getPosy(), rec_width, rec_height);
-            graphics2D.fillRect(this.apple.getPosx(),this.apple.getPosy(),rec_width,rec_height);
+            graphics2D.drawRect(apple.getPosx(), apple.getPosy(), rec_width, rec_height);
+            graphics2D.fillRect(apple.getPosx(),apple.getPosy(),rec_width,rec_height);
         }
 
         graphics2D.setPaint(Color.green);
-        for (Rectangle rec: this.body) {
+        for (Rectangle rec: body) {
             graphics2D.drawRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
             graphics2D.fillRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
         }
@@ -137,13 +125,13 @@ public class Snake extends JPanel {
     }
 
     public Apple getApple() {
-        return this.apple;
+        return apple;
     }
 
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        setBackground(backgroundColor);
+        setBackground(BACKGROUND_COLOR);
         drawSnake(graphics);
     }
 }

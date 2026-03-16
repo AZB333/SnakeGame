@@ -2,10 +2,7 @@ package SnakeGame;
 
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import javax.swing.*;
 
 
@@ -35,11 +32,11 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 
         // timer for drawing apples on the screen
         java.util.Timer drawApples = new java.util.Timer();
-        Apple st = new Apple(this.snake);
-        drawApples.schedule(st,0,300);
+        Apple apple = new Apple(snake);
+        drawApples.schedule(apple,0,250);
 
         // window creation & drawing
-        add(this.snake);
+        add(snake);
         setTitle("Snake Game");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.addKeyListener(this);
@@ -48,6 +45,24 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    public Boolean isOver() {
+        EventBus.getInstance().postMessage("Game Over");
+        return !snake.checkCollision();
+    }
+
+    public void play() {
+
+        System.out.println("You lose!");
+        setVisible(false);
+
+        JFrame parent = new JFrame("Game over!");
+        JOptionPane.showMessageDialog(parent, "Your score: " + (snake.getBody().size() - 3));
+
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        System.exit(0);
+    }
+
 
 
     @Override
@@ -60,26 +75,32 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     public void keyPressed(KeyEvent e) {
 
         int keyCode = e.getKeyCode();
-        if ((keyCode == VIRTUAL_RIGHT_KEY_CODE || keyCode == D_KEY_CODE) && !this.snake.getDirection().equals("left")) {
-            this.snake.setDirection("right"); // right arrow pressed
+        if ((keyCode == VIRTUAL_RIGHT_KEY_CODE || keyCode == D_KEY_CODE) && !snake.getDirection().equals("left")) {
+            snake.setDirection("right"); // right arrow pressed
         }
 
-        else if ((keyCode == VIRTUAL_LEFT_KEY_CODE || keyCode == A_KEY_CODE) && !this.snake.getDirection().equals("right")) {
-            this.snake.setDirection("left"); // left arrow pressed
+        else if ((keyCode == VIRTUAL_LEFT_KEY_CODE || keyCode == A_KEY_CODE) && !snake.getDirection().equals("right")) {
+            snake.setDirection("left"); // left arrow pressed
         }
 
-        else if ((keyCode == VIRTUAL_UP_KEY_CODE || keyCode == W_KEY_CODE) && !this.snake.getDirection().equals("down")) {
-            this.snake.setDirection("up"); // up arrow pressed
+        else if ((keyCode == VIRTUAL_UP_KEY_CODE || keyCode == W_KEY_CODE) && !snake.getDirection().equals("down")) {
+            snake.setDirection("up"); // up arrow pressed
         }
 
-        else if ((keyCode == VIRTUAL_DOWN_KEY_CODE || keyCode == S_KEY_CODE) && !this.snake.getDirection().equals("up")) {
-            this.snake.setDirection("down"); // down arrow pressed
+        else if ((keyCode == VIRTUAL_DOWN_KEY_CODE || keyCode == S_KEY_CODE) && !snake.getDirection().equals("up")) {
+            snake.setDirection("down"); // down arrow pressed
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         // redraw the screen
+        if (isOver()) {
+            play();
+            return;
+        }
+
+        snake.moveSnake();
         repaint();
     }
 

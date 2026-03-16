@@ -1,6 +1,8 @@
 package SnakeGame;
 
-public class Rectangle {
+
+//make this abstract, snake is a list of this, apple is this, make factory for this
+public class Rectangle implements IRectangle {
 
     private int posx;
     private int posy;
@@ -13,12 +15,12 @@ public class Rectangle {
         this.posy = posy;
     }
 
-    public boolean intersects(Rectangle r2) {
+    public boolean intersects(IRectangle obstacle) {
         /*
         return true if x and y coordinates of
-        this and r2 are the same
+        this and obstacle are the same
         */
-        return this.posx == r2.getPosx() && this.posy == r2.getPosy();
+        return posx == obstacle.getPosx() && posy == obstacle.getPosy();
     }
 
 
@@ -27,12 +29,12 @@ public class Rectangle {
     }
 
     public int getPosy() {
-        return this.posy;
+        return posy;
     }
 
-    public void setPosx(int increment) { this.posx = this.posx + increment; }
+    public void setPosx(int increment) { posx = posx + increment; }
 
-    public void setPosy(int increment) { this.posy =  this.posy + increment; }
+    public void setPosy(int increment) { posy =  posy + increment; }
 
 
 }
