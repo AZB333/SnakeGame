@@ -1,9 +1,9 @@
-package SnakeGame.rectangles;
+package snakegame.rectangles;
 
 import java.awt.*;
 
 //make this abstract, snake is a list of this, apple is this, make factory for this
-public class Rectangle {
+abstract public class Rectangle {
 
     private int posx;
     private int posy;
@@ -24,7 +24,7 @@ public class Rectangle {
         return posx == obstacle.getPosx() && posy == obstacle.getPosy();
     }
 
-    Color getColor(){return Color.green;}
+    abstract Color getColor();
 
 
     public int getPosx() {

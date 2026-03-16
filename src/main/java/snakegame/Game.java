@@ -1,9 +1,9 @@
-package SnakeGame;
+package snakegame;
 
 
-import SnakeGame.rectangles.Rectangle;
-import SnakeGame.rectangles.RectangleFactory;
-import SnakeGame.rectangles.Snake;
+import snakegame.rectangles.Rectangle;
+import snakegame.rectangles.RectangleFactory;
+import snakegame.rectangles.Snake;
 
 import java.awt.*;
 import java.awt.event.*;

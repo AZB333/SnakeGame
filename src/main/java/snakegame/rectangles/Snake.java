@@ -1,14 +1,14 @@
-package SnakeGame.rectangles;
+package snakegame.rectangles;
 
-import SnakeGame.EventBus;
-import SnakeGame.Game;
+import snakegame.EventBus;
+import snakegame.Game;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static SnakeGame.rectangles.Rectangle.rec_height;
-import static SnakeGame.rectangles.Rectangle.rec_width;
+import static snakegame.rectangles.Rectangle.rec_height;
+import static snakegame.rectangles.Rectangle.rec_width;
 
 
 public class Snake extends JPanel {

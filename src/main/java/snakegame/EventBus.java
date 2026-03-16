@@ -1,7 +1,4 @@
-package SnakeGame;
-
-import java.util.ArrayList;
-import java.util.List;
+package snakegame;
 
 public class EventBus { // implements IGame {
     private static final EventBus instance = new EventBus();

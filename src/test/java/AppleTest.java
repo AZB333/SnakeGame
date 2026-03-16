@@ -1,11 +1,20 @@
 import org.junit.jupiter.api.Test;
+import snakegame.rectangles.Apple;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.awt.*;
+
 
 class AppleTest {
 
     @Test
     void testAppleConstructor() {
+        int posx = 1;
+        int posy = 2;
+        Apple apple = new Apple(posx, posy);
+
+        assert(apple.getPosx() == posx);
+        assert(apple.getPosy() == posy);
+        assert(apple.getColor() == Color.red);
     }
 
 }

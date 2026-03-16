@@ -1,4 +1,4 @@
-package SnakeGame.rectangles;
+package snakegame.rectangles;
 
 import java.awt.*;
 
