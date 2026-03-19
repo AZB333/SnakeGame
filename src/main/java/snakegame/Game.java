@@ -7,13 +7,14 @@ import snakegame.rectangles.Snake;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
 //so far we can implement observer pattern, factory pattern, singleton pattern
 //maybe can do snake builder, or have a snake customization window for more factory and builder
 //need one more pattern, perchance strategy pattern since apple doesn't need the rest of rectangle
-public class Game extends JFrame implements KeyListener, ActionListener {
+public class Game extends JFrame implements KeyListener, ActionListener, IGame {
 
     Snake snake;
     private static final int VIRTUAL_RIGHT_KEY_CODE = 39;
@@ -28,6 +29,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     public static final int WINDOW_HEIGHT = 610;
     private final RectangleFactory rectangleFactory = new RectangleFactory();
     private final Random random = new Random();
+    private final ArrayList<IObserver> observers = new ArrayList<>();
 
 
     public Game() {
@@ -39,7 +41,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         timer.start();
 
         // window creation & drawing
-        add(snake);
+//        add(snake);
         setTitle("Snake Game");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.addKeyListener(this);
@@ -50,8 +52,13 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     }
 
     public Boolean isOver() {
-        EventBus.getInstance().postMessage("Game Over");
-        return !snake.checkCollision();
+        boolean over = snake.isCollision();
+        if(over){
+            EventBus.getInstance().publish(new GameEvent(GameEvent.Type.GAME_OVER, snake.getScore()));
+//            notifyObservers("Game Over", snake.getScore());
+        }
+        return over;
+
     }
 
     public void play() {
@@ -60,13 +67,23 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         setVisible(false);
 
         JFrame parent = new JFrame("Game over!");
-        JOptionPane.showMessageDialog(parent, "Your score: " + (snake.getBody().size() - 3));
+        JOptionPane.showMessageDialog(parent, "Your score: " + (snake.getScore()));
 
         dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         System.exit(0);
     }
 
-
+    public void attach(IObserver observer){
+        observers.add(observer);
+    }
+    public void detach(IObserver observer){
+        observers.remove(observer);
+    }
+    public void notifyObservers(GameEvent gameEvent) {
+        for (IObserver observer : observers) {
+            observer.update(gameEvent);
+        }
+    }
 
     @Override
     public void keyTyped(KeyEvent e) { }
@@ -100,7 +117,6 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // redraw the screen
         if (isOver()) {
             play();
             return;
@@ -112,14 +128,16 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             int y = getRandomPosition();
 
             Rectangle apple = rectangleFactory.createApple(x, y);
+            notifyObservers(new GameEvent(GameEvent.Type.APPLE_SPAWNED, apple));
             snake.setApple(apple);
         }
 
         snake.moveSnake();
+        notifyObservers(new GameEvent(GameEvent.Type.SNAKE_MOVED, snake));
         repaint();
     }
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         EventQueue.invokeLater(Game::new);
     }
 

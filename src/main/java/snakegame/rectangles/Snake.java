@@ -11,9 +11,9 @@ import static snakegame.rectangles.Rectangle.rec_height;
 import static snakegame.rectangles.Rectangle.rec_width;
 
 
-public class Snake extends JPanel {
+public class Snake {
 
-    private static final Color BACKGROUND_COLOR = new Color(43, 86, 137);
+    public static final Color BACKGROUND_COLOR = new Color(43, 86, 137);
     private static final int START_POSITION_X_Y = 250;
     private static final int DEFAULT_SPEED = 25;
     private ArrayList<Rectangle> body;
@@ -35,7 +35,7 @@ public class Snake extends JPanel {
         this.direction = "right";
     }
 
-    public ArrayList<Rectangle> getBody() {return new ArrayList<>(body); }
+//    public ArrayList<Rectangle> getBody() {return new ArrayList<>(body); }
     public void setDirection(String direction) {
         this.direction = direction;
     }
@@ -58,26 +58,28 @@ public class Snake extends JPanel {
         int playableHeight = Game.WINDOW_HEIGHT - rec_height;
         return snakeHead.getPosx() > playableWidth || snakeHead.getPosx() < 0 || snakeHead.getPosy() > playableHeight || snakeHead.getPosy() < 0;
     }
-    public boolean checkCollision() {
+    public boolean isCollision() {
         Rectangle snakeHead = body.getFirst();
 
         for (int bodyIndex = 1; bodyIndex < body.size(); bodyIndex++) {
             Rectangle bodyRectangle = body.get(bodyIndex);
             if (snakeHead.intersects(bodyRectangle) || checkOutOfBounds(snakeHead)) {
-                return false;
+                return true;
             }
         }
         if (apple != null) { //apple collision
             //observer moment
             if(snakeHead.intersects(apple)){
-                EventBus.getInstance().postMessage("Apple Eaten");
+//                EventBus.getInstance().publish("Apple Eaten");
                 apple = null;
                 this.addPart();
             }
         }
-        return true;
+        return false;
 
     }
+
+    public int getScore(){ return body.size() - 3;}
 
     public void moveSnake() {
 
@@ -102,10 +104,10 @@ public class Snake extends JPanel {
 
 
         body = movedSnake;
-        checkCollision();
+        isCollision();
     }
 
-    private void drawSnake(Graphics graphics) {
+    public void drawSnake(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;
 
         if (apple != null) {
@@ -129,10 +131,4 @@ public class Snake extends JPanel {
         return apple;
     }
 
-    @Override
-    public void paintComponent(Graphics graphics) {
-        super.paintComponent(graphics);
-        setBackground(BACKGROUND_COLOR);
-        drawSnake(graphics);
-    }
 }
