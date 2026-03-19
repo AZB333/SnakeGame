@@ -9,7 +9,6 @@ import static snakegame.rectangles.GameRectangle.rec_width;
 
 public class Snake {
 
-    public static final Color BACKGROUND_COLOR = new Color(43, 86, 137);
     private static final int START_POSITION_X_Y = 250;
     private static final int DEFAULT_SPEED = 25;
     private ArrayList<GameRectangle> body;

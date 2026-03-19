@@ -4,8 +4,6 @@ import javax.swing.*;
 
 import java.awt.*;
 
-//import static snakegame.Game.WINDOW_HEIGHT;
-//import static snakegame.Game.WINDOW_WIDTH;
 
 public class GameWindow extends JFrame {
     public static final int WINDOW_WIDTH = 610;
