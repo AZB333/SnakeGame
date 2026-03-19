@@ -17,11 +17,11 @@ public class EventBus {
         return instance;
     }
 
-    public void subscribe(IObserver observer) {
+    public void attach(IObserver observer) {
         observers.add(observer);
     }
 
-    public void unsubscribe(IObserver observer) {
+    public void detach(IObserver observer) {
         observers.remove(observer);
     }
 

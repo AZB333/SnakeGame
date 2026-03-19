@@ -2,7 +2,7 @@ package snakegame.rectangles;
 
 import java.awt.*;
 
-public class SnakeSegment extends Rectangle {
+public class SnakeSegment extends GameRectangle {
 
     private static final Color color = Color.green;
 

@@ -1,5 +1,6 @@
+package snakegame.rectangles;
+
 import org.junit.jupiter.api.Test;
-import snakegame.rectangles.Apple;
 
 import java.awt.*;
 

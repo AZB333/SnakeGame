@@ -1,14 +1,10 @@
 package snakegame.rectangles;
 
-import snakegame.EventBus;
-import snakegame.Game;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static snakegame.rectangles.Rectangle.rec_height;
-import static snakegame.rectangles.Rectangle.rec_width;
+import static snakegame.rectangles.GameRectangle.rec_height;
+import static snakegame.rectangles.GameRectangle.rec_width;
 
 
 public class Snake {
@@ -16,20 +12,20 @@ public class Snake {
     public static final Color BACKGROUND_COLOR = new Color(43, 86, 137);
     private static final int START_POSITION_X_Y = 250;
     private static final int DEFAULT_SPEED = 25;
-    private ArrayList<Rectangle> body;
+    private ArrayList<GameRectangle> body;
     private final RectangleFactory rectangleFactory;
 
     private String direction;
 
-    private Rectangle apple;
+    private GameRectangle apple;
 
     public Snake(RectangleFactory rectangleFactory) {
         this.rectangleFactory = rectangleFactory;
         this.body = new ArrayList<>();
         body.add(rectangleFactory.createSnakeSegment(START_POSITION_X_Y, START_POSITION_X_Y));
-        Rectangle head = this.body.getFirst();
+        GameRectangle head = this.body.getFirst();
         body.add(rectangleFactory.createSnakeSegment(head.getPosx() - rec_width, head.getPosy()));
-        Rectangle behind_head = this.body.get(1);
+        GameRectangle behind_head = this.body.get(1);
         body.add(rectangleFactory.createSnakeSegment(behind_head.getPosx() - rec_width, behind_head.getPosy()));
 
         this.direction = "right";
@@ -44,7 +40,7 @@ public class Snake {
     }
 
     public void addPart() {
-        Rectangle tail = body.getLast();
+        GameRectangle tail = body.getLast();
         switch (direction) {
             case "right" -> body.add(rectangleFactory.createSnakeSegment(tail.getPosx() - rec_width, tail.getPosy()));
             case "left" -> body.add(rectangleFactory.createSnakeSegment(tail.getPosx() + rec_width, tail.getPosy()));
@@ -53,17 +49,17 @@ public class Snake {
         }
     }
 
-    public boolean checkOutOfBounds(Rectangle snakeHead){
-        int playableWidth = Game.WINDOW_WIDTH - rec_width;
-        int playableHeight = Game.WINDOW_HEIGHT - rec_height;
+    public boolean checkOutOfBounds(GameRectangle snakeHead){
+        int playableWidth = 610; //remove magic number once game structure figured out
+        int playableHeight = 610;
         return snakeHead.getPosx() > playableWidth || snakeHead.getPosx() < 0 || snakeHead.getPosy() > playableHeight || snakeHead.getPosy() < 0;
     }
     public boolean isCollision() {
-        Rectangle snakeHead = body.getFirst();
+        GameRectangle snakeHead = body.getFirst();
 
         for (int bodyIndex = 1; bodyIndex < body.size(); bodyIndex++) {
-            Rectangle bodyRectangle = body.get(bodyIndex);
-            if (snakeHead.intersects(bodyRectangle) || checkOutOfBounds(snakeHead)) {
+            GameRectangle bodyGameRectangle = body.get(bodyIndex);
+            if (snakeHead.intersects(bodyGameRectangle) || checkOutOfBounds(snakeHead)) {
                 return true;
             }
         }
@@ -83,10 +79,10 @@ public class Snake {
 
     public void moveSnake() {
 
-        ArrayList<Rectangle> movedSnake = new ArrayList<>();
+        ArrayList<GameRectangle> movedSnake = new ArrayList<>();
 
-        Rectangle first = body.getFirst();
-        Rectangle head = rectangleFactory.createSnakeSegment(first.getPosx(), first.getPosy());
+        GameRectangle first = body.getFirst();
+        GameRectangle head = rectangleFactory.createSnakeSegment(first.getPosx(), first.getPosy());
 
         switch (direction) {
             case "right" -> head.setPosx(DEFAULT_SPEED);
@@ -97,8 +93,8 @@ public class Snake {
         movedSnake.add(head);
 
         for (int i = 1; i < body.size(); i++) {
-            Rectangle previous = body.get(i-1);
-            Rectangle newRec = rectangleFactory.createSnakeSegment(previous.getPosx(), previous.getPosy());
+            GameRectangle previous = body.get(i-1);
+            GameRectangle newRec = rectangleFactory.createSnakeSegment(previous.getPosx(), previous.getPosy());
             movedSnake.add(newRec);
         }
 
@@ -116,18 +112,18 @@ public class Snake {
             graphics2D.fillRect(apple.getPosx(),apple.getPosy(),rec_width,rec_height);
         }
 
-        for (Rectangle rec: body) {
+        for (GameRectangle rec: body) {
             graphics2D.setPaint(rec.getColor());
             graphics2D.drawRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
             graphics2D.fillRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
         }
     }
 
-    public void setApple(Rectangle apple) {
+    public void setApple(GameRectangle apple) {
         this.apple = apple;
     }
 
-    public Rectangle getApple() {
+    public GameRectangle getApple() {
         return apple;
     }
 

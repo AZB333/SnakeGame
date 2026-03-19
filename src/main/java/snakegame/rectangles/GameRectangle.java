@@ -2,8 +2,7 @@ package snakegame.rectangles;
 
 import java.awt.*;
 
-//make this abstract, snake is a list of this, apple is this, make factory for this
-abstract public class Rectangle {
+abstract public class GameRectangle {
 
     private int posx;
     private int posy;
@@ -11,12 +10,12 @@ abstract public class Rectangle {
     public static final int rec_width = 20;
     public static final int rec_height = 20;
 
-    public Rectangle(int posx, int posy) {
+    public GameRectangle(int posx, int posy) {
         this.posx = posx;
         this.posy = posy;
     }
 
-    public boolean intersects(Rectangle obstacle) {
+    public boolean intersects(GameRectangle obstacle) {
         /*
         return true if x and y coordinates of
         this and obstacle are the same

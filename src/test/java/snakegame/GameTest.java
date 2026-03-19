@@ -1,6 +1,6 @@
+package snakegame;
+
 import org.junit.jupiter.api.Test;
-import snakegame.Game;
-import snakegame.GamePanel;
 
 import javax.swing.*;
 
@@ -18,6 +18,9 @@ class GameTest extends JFrame {
         setSize(610, 610);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+
+//        game.play();
+
     }
 
 }

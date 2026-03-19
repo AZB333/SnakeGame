@@ -9,7 +9,7 @@ public class GamePanel extends JPanel implements IObserver {
     private Snake snake;
 
     public GamePanel() {
-        EventBus.getInstance().subscribe(this);
+        EventBus.getInstance().attach(this);
     }
 
     @Override
