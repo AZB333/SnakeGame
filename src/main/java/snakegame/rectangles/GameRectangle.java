@@ -23,8 +23,7 @@ abstract public class GameRectangle {
         return posx == obstacle.getPosx() && posy == obstacle.getPosy();
     }
 
-    abstract Color getColor();
-
+    public abstract Color getColor();
 
     public int getPosx() {
         return posx;
@@ -37,6 +36,5 @@ abstract public class GameRectangle {
     public void setPosx(int increment) { posx = posx + increment; }
 
     public void setPosy(int increment) { posy =  posy + increment; }
-
 
 }

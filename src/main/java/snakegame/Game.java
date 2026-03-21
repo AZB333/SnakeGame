@@ -81,14 +81,14 @@ public class Game implements KeyListener, ActionListener {
     public void keyPressed(KeyEvent e) {
 
         int keyCode = e.getKeyCode();
-        if ((keyCode == VIRTUAL_RIGHT_KEY_CODE || keyCode == D_KEY_CODE) && !snake.getDirection().equals("left")) {
-            snake.setDirection("right"); // right arrow pressed
-        } else if ((keyCode == VIRTUAL_LEFT_KEY_CODE || keyCode == A_KEY_CODE) && !snake.getDirection().equals("right")) {
-            snake.setDirection("left"); // left arrow pressed
-        } else if ((keyCode == VIRTUAL_UP_KEY_CODE || keyCode == W_KEY_CODE) && !snake.getDirection().equals("down")) {
-            snake.setDirection("up"); // up arrow pressed
-        } else if ((keyCode == VIRTUAL_DOWN_KEY_CODE || keyCode == S_KEY_CODE) && !snake.getDirection().equals("up")) {
-            snake.setDirection("down"); // down arrow pressed
+        if ((keyCode == VIRTUAL_RIGHT_KEY_CODE || keyCode == D_KEY_CODE) && !snake.getDirection().equals(Direction.LEFT)) {
+            snake.setDirection(Direction.RIGHT); // right arrow pressed
+        } else if ((keyCode == VIRTUAL_LEFT_KEY_CODE || keyCode == A_KEY_CODE) && !snake.getDirection().equals(Direction.RIGHT)) {
+            snake.setDirection(Direction.LEFT); // left arrow pressed
+        } else if ((keyCode == VIRTUAL_UP_KEY_CODE || keyCode == W_KEY_CODE) && !snake.getDirection().equals(Direction.DOWN)) {
+            snake.setDirection(Direction.UP); // up arrow pressed
+        } else if ((keyCode == VIRTUAL_DOWN_KEY_CODE || keyCode == S_KEY_CODE) && !snake.getDirection().equals(Direction.UP)) {
+            snake.setDirection(Direction.DOWN); // down arrow pressed
         }
     }
 
