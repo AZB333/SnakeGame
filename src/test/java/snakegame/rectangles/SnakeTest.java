@@ -1,6 +1,7 @@
 package snakegame.rectangles;
 
 import org.junit.jupiter.api.Test;
+import snakegame.Direction;
 
 import java.awt.*;
 import java.util.Objects;
@@ -24,7 +25,7 @@ class SnakeTest {
         int initialHeadX = snake.getHeadPosX();
         int initialHeadY = snake.getHeadPosY();
 
-        snake.setDirection("right");
+        snake.setDirection(Direction.RIGHT);
         snake.moveSnake();
 
         assert(initialHeadX == snake.getHeadPosX() - Snake.WINDOW_STRIDE_IN_PIXELS);
@@ -37,7 +38,7 @@ class SnakeTest {
         int initialHeadX = snake.getHeadPosX();
         int initialHeadY = snake.getHeadPosY();
 
-        snake.setDirection("up");
+        snake.setDirection(Direction.UP);
         snake.moveSnake();
 
         assert(initialHeadX == snake.getHeadPosX());
@@ -50,7 +51,7 @@ class SnakeTest {
         int initialHeadX = snake.getHeadPosX();
         int initialHeadY = snake.getHeadPosY();
 
-        snake.setDirection("left");
+        snake.setDirection(Direction.LEFT);
         snake.moveSnake();
 
         assert(initialHeadX == snake.getHeadPosX() + Snake.WINDOW_STRIDE_IN_PIXELS);
@@ -63,7 +64,7 @@ class SnakeTest {
         int initialHeadX = snake.getHeadPosX();
         int initialHeadY = snake.getHeadPosY();
 
-        snake.setDirection("down");
+        snake.setDirection(Direction.DOWN);
         snake.moveSnake();
 
         assert(initialHeadX == snake.getHeadPosX());
