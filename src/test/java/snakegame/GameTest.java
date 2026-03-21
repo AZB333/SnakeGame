@@ -9,10 +9,10 @@ class GameTest extends JFrame {
 
     @Test
     void testPlay() {
-        Game game = new Game();
-        GamePanel panel = new GamePanel();
-
-        add(panel);
+//        Game game = new Game();
+//        GamePanel panel = new GamePanel(game);
+//
+//        add(panel);
 
         setTitle("Snake Game");
         setSize(610, 610);

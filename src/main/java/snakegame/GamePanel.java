@@ -9,19 +9,20 @@ public class GamePanel extends JPanel implements IObserver {
 
     private Snake snake;
     private static final Color SNAKE_BACKGROUND_COLOR = new Color(43, 86, 137);
+    private final Game game;
 
-
-    public GamePanel() {
+    public GamePanel(Game game) {
+        this.game = game;
         EventBus.getInstance().attach(this);
         setBackground(Color.BLACK);
     }
 
     @Override
     public void update(GameEvent event) {
-        switch (event.type()) {
+        switch (event) {
 
             case SNAKE_MOVED:
-                this.snake = (Snake) event.data();
+                snake = game.getSnake();
                 repaint();
                 break;
 
@@ -35,7 +36,7 @@ public class GamePanel extends JPanel implements IObserver {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         setBackground(SNAKE_BACKGROUND_COLOR);
-        snake.drawSnake(graphics);
+        game.getSnake().drawSnake(graphics);
     }
 }
 

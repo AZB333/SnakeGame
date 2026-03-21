@@ -14,7 +14,6 @@ import javax.swing.*;
 //need one more pattern, perchance strategy pattern since apple doesn't need the rest of rectangle
 public class Game implements KeyListener, ActionListener {
 
-    Snake snake;
     private static final int VIRTUAL_RIGHT_KEY_CODE = 39;
     private static final int VIRTUAL_LEFT_KEY_CODE = 37;
     private static final int VIRTUAL_UP_KEY_CODE = 38;
@@ -26,10 +25,10 @@ public class Game implements KeyListener, ActionListener {
     private final RectangleFactory rectangleFactory = new RectangleFactory();
     private final Random random = new Random();
     private final EventBus eventBus = EventBus.getInstance();
+    private final Snake snake;
 
-    public Game() {
-        // create the snake
-        this.snake = new Snake(rectangleFactory);
+    public Game(Snake snake) {
+        this.snake = snake;
 
         // timer for redrawing the screen
         Timer timer = new Timer(200, this);
@@ -39,42 +38,16 @@ public class Game implements KeyListener, ActionListener {
 
     public Boolean isOver() {
         boolean over = snake.isCollision();
-        if(over){
-            eventBus.publish(new GameEvent(GameEvent.Type.GAME_OVER, snake.getScore()));
+        if (over) {
+            eventBus.publish(GameEvent.GAME_OVER);
         }
         return over;
 
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) { }
-
-    @Override
-    public void keyReleased(KeyEvent e) { }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-        int keyCode = e.getKeyCode();
-        if ((keyCode == VIRTUAL_RIGHT_KEY_CODE || keyCode == D_KEY_CODE) && !snake.getDirection().equals("left")) {
-            snake.setDirection("right"); // right arrow pressed
-        }
-
-        else if ((keyCode == VIRTUAL_LEFT_KEY_CODE || keyCode == A_KEY_CODE) && !snake.getDirection().equals("right")) {
-            snake.setDirection("left"); // left arrow pressed
-        }
-
-        else if ((keyCode == VIRTUAL_UP_KEY_CODE || keyCode == W_KEY_CODE) && !snake.getDirection().equals("down")) {
-            snake.setDirection("up"); // up arrow pressed
-        }
-
-        else if ((keyCode == VIRTUAL_DOWN_KEY_CODE || keyCode == S_KEY_CODE) && !snake.getDirection().equals("up")) {
-            snake.setDirection("down"); // down arrow pressed
-        }
+    public Snake getSnake() {
+        return snake;
     }
-
-    public int getRandomPosition(){return 25 * random.nextInt(20);}
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -82,18 +55,44 @@ public class Game implements KeyListener, ActionListener {
             return;
         }
 
-
         if (snake.getApple() == null) {
             int x = getRandomPosition();
             int y = getRandomPosition();
 
             GameRectangle apple = rectangleFactory.createApple(x, y);
-            eventBus.publish(new GameEvent(GameEvent.Type.APPLE_SPAWNED, apple));
+            eventBus.publish(GameEvent.APPLE_SPAWNED);
             snake.setApple(apple);
         }
 
         snake.moveSnake();
-        eventBus.publish(new GameEvent(GameEvent.Type.SNAKE_MOVED, snake));
+        eventBus.publish(GameEvent.SNAKE_MOVED);
     }
 
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+        int keyCode = e.getKeyCode();
+        if ((keyCode == VIRTUAL_RIGHT_KEY_CODE || keyCode == D_KEY_CODE) && !snake.getDirection().equals("left")) {
+            snake.setDirection("right"); // right arrow pressed
+        } else if ((keyCode == VIRTUAL_LEFT_KEY_CODE || keyCode == A_KEY_CODE) && !snake.getDirection().equals("right")) {
+            snake.setDirection("left"); // left arrow pressed
+        } else if ((keyCode == VIRTUAL_UP_KEY_CODE || keyCode == W_KEY_CODE) && !snake.getDirection().equals("down")) {
+            snake.setDirection("up"); // up arrow pressed
+        } else if ((keyCode == VIRTUAL_DOWN_KEY_CODE || keyCode == S_KEY_CODE) && !snake.getDirection().equals("up")) {
+            snake.setDirection("down"); // down arrow pressed
+        }
+    }
+
+    public int getRandomPosition() {
+        return 25 * random.nextInt(20);
+    }
 }
