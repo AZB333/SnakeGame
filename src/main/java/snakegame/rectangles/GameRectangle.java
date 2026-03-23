@@ -33,8 +33,11 @@ abstract public class GameRectangle {
         return posy;
     }
 
-    public void setPosx(int increment) { posx = posx + increment; }
+    public void incrementPosx(int increment) { posx = posx + increment; }
 
-    public void setPosy(int increment) { posy =  posy + increment; }
+    public void incrementPosy(int increment) { posy =  posy + increment; }
+
+    public void setPosx(int newPosx) {posx = newPosx;}
+    public void setPosy(int newPosy) {posy = newPosy;}
 
 }

@@ -15,7 +15,7 @@ public class GameWindow extends JFrame {
     public GameWindow() {
         RectangleFactory rectangleFactory = new RectangleFactory();
         Snake snake = new Snake(rectangleFactory);
-        Game game = new Game(snake);
+        Game game = new Game(snake, rectangleFactory);
         GamePanel panel = new GamePanel(game);
         add(panel);
         addKeyListener(game);
@@ -30,6 +30,12 @@ public class GameWindow extends JFrame {
         setFocusable(true);
         requestFocusInWindow();
         setVisible(true);
+
+        Timer timer = new Timer(200, e -> {
+            game.update();
+            panel.repaint();
+        });
+        timer.start();
     }
 
     public static void main(String[] args) {

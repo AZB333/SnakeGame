@@ -12,7 +12,7 @@ import javax.swing.*;
 //so far we can implement observer pattern, factory pattern, singleton pattern
 //maybe can do snake builder, or have a snake customization window for more factory and builder
 //need one more pattern, perchance strategy pattern since apple doesn't need the rest of rectangle
-public class Game implements KeyListener, ActionListener {
+public class Game implements KeyListener {
 
     private static final int VIRTUAL_RIGHT_KEY_CODE = 39;
     private static final int VIRTUAL_LEFT_KEY_CODE = 37;
@@ -22,18 +22,14 @@ public class Game implements KeyListener, ActionListener {
     private static final int A_KEY_CODE = 65;
     private static final int S_KEY_CODE = 83;
     private static final int D_KEY_CODE = 68;
-    private final RectangleFactory rectangleFactory = new RectangleFactory();
+    private final RectangleFactory rectangleFactory;
     private final Random random = new Random();
     private final EventBus eventBus = EventBus.getInstance();
     private final Snake snake;
 
-    public Game(Snake snake) {
+    public Game(Snake snake, RectangleFactory rectangleFactory) {
+        this.rectangleFactory = rectangleFactory;
         this.snake = snake;
-
-        // timer for redrawing the screen
-        Timer timer = new Timer(200, this);
-        timer.start();
-
     }
 
     public Boolean isOver() {
@@ -49,19 +45,20 @@ public class Game implements KeyListener, ActionListener {
         return snake;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (isOver()) {
-            return;
-        }
+    public int getRandomPosition() {
+        return 25 * random.nextInt(20);
+    }
+
+    public void update() {
+        if (isOver()) return;
 
         if (snake.getApple() == null) {
             int x = getRandomPosition();
             int y = getRandomPosition();
 
             GameRectangle apple = rectangleFactory.createApple(x, y);
-            eventBus.publish(GameEvent.APPLE_SPAWNED);
             snake.setApple(apple);
+            eventBus.publish(GameEvent.APPLE_SPAWNED);
         }
 
         snake.moveSnake();
@@ -90,9 +87,5 @@ public class Game implements KeyListener, ActionListener {
         } else if ((keyCode == VIRTUAL_DOWN_KEY_CODE || keyCode == S_KEY_CODE) && !snake.getDirection().equals(Direction.UP)) {
             snake.setDirection(Direction.DOWN); // down arrow pressed
         }
-    }
-
-    public int getRandomPosition() {
-        return 25 * random.nextInt(20);
     }
 }

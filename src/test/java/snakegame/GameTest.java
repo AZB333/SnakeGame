@@ -1,26 +1,40 @@
 package snakegame;
 
 import org.junit.jupiter.api.Test;
+import snakegame.rectangles.RectangleFactory;
+import snakegame.rectangles.Snake;
 
 import javax.swing.*;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class GameTest extends JFrame {
+    RectangleFactory rectangleFactory = new RectangleFactory();
+
 
     @Test
-    void testPlay() {
-//        Game game = new Game();
-//        GamePanel panel = new GamePanel(game);
+    void appleSpawnsWhenMissing() {
+//        Snake snake = new Snake(rectangleFactory);
 //
-//        add(panel);
+//        Game game = new Game(snake, rectangleFactory);
+//        snake.setApple(null);
+//
+//        game.update();
+//
+//        assertNotNull(snake.getApple());
+//        assertEquals(100, snake.getApple().getPosx());
+//        assertEquals(100, snake.getApple().getPosy());
+    }
+    @Test
+    void gameEndsOnCollision() {
+        Snake snake = new Snake(rectangleFactory);
+        Game game = new Game(snake, rectangleFactory);
+        snake.setHeadPosition(0, 0);
+        snake.setDirection(Direction.LEFT);
 
-        setTitle("Snake Game");
-        setSize(610, 610);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-
-//        game.play();
-
+        game.update();
+        assertTrue(game.isOver());
     }
 
 }

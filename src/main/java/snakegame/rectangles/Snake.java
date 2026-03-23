@@ -3,7 +3,6 @@ package snakegame.rectangles;
 import snakegame.Direction;
 import snakegame.GameWindow;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static snakegame.rectangles.GameRectangle.rec_height;
@@ -89,19 +88,22 @@ public class Snake {
 
     public int getScore(){ return body.size() - STARTING_BODY_SIZE;}
 
+    private void adjustDirection(Direction direction, GameRectangle snakeHead){
+        switch (direction) {
+            case Direction.RIGHT -> snakeHead.incrementPosx(WINDOW_STRIDE_IN_PIXELS);
+            case Direction.LEFT -> snakeHead.incrementPosx(-WINDOW_STRIDE_IN_PIXELS);
+            case Direction.UP -> snakeHead.incrementPosy(-WINDOW_STRIDE_IN_PIXELS);
+            case Direction.DOWN -> snakeHead.incrementPosy(WINDOW_STRIDE_IN_PIXELS);
+        }
+    }
+
     public void moveSnake() {
 
         ArrayList<GameRectangle> movedSnake = new ArrayList<>();
 
         GameRectangle currHeadSegment = body.getFirst();
         GameRectangle movedHead = rectangleFactory.createSnakeSegment(currHeadSegment.getPosx(), currHeadSegment.getPosy());
-
-        switch (direction) {
-            case Direction.RIGHT -> movedHead.setPosx(WINDOW_STRIDE_IN_PIXELS);
-            case Direction.LEFT -> movedHead.setPosx(-WINDOW_STRIDE_IN_PIXELS);
-            case Direction.UP -> movedHead.setPosy(-WINDOW_STRIDE_IN_PIXELS);
-            case Direction.DOWN -> movedHead.setPosy(WINDOW_STRIDE_IN_PIXELS);
-        }
+        adjustDirection(direction, movedHead);
         movedSnake.add(movedHead);
 
         for (int i = 1; i < body.size(); i++) {
@@ -113,6 +115,11 @@ public class Snake {
 
         body = movedSnake;
         isCollision();
+    }
+
+    public void setHeadPosition(int posx, int posy) {
+        body.getFirst().setPosx(posx);
+        body.getFirst().setPosy(posy);
     }
 
     public void setApple(GameRectangle apple) {
