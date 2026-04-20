@@ -9,10 +9,7 @@ import java.awt.event.*;
 import java.util.Random;
 import javax.swing.*;
 
-//so far we can implement observer pattern, factory pattern, singleton pattern
-//maybe can do snake builder, or have a snake customization window for more factory and builder
-//need one more pattern, perchance strategy pattern since apple doesn't need the rest of rectangle
-public class Game implements KeyListener {
+public class Game {
 
     private static final int VIRTUAL_RIGHT_KEY_CODE = 39;
     private static final int VIRTUAL_LEFT_KEY_CODE = 37;
@@ -65,19 +62,7 @@ public class Game implements KeyListener {
         eventBus.publish(GameEvent.SNAKE_MOVED);
     }
 
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-        int keyCode = e.getKeyCode();
+    public void handleInput(int keyCode) {
         if ((keyCode == VIRTUAL_RIGHT_KEY_CODE || keyCode == D_KEY_CODE) && !snake.getDirection().equals(Direction.LEFT)) {
             snake.setDirection(Direction.RIGHT); // right arrow pressed
         } else if ((keyCode == VIRTUAL_LEFT_KEY_CODE || keyCode == A_KEY_CODE) && !snake.getDirection().equals(Direction.RIGHT)) {

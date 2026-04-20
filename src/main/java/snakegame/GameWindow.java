@@ -17,8 +17,9 @@ public class GameWindow extends JFrame {
         Snake snake = new Snake(rectangleFactory);
         Game game = new Game(snake, rectangleFactory);
         GamePanel panel = new GamePanel(game);
+        InputController inputController = new InputController(game);
         add(panel);
-        addKeyListener(game);
+        addKeyListener(inputController);
 
         setTitle("Snake Game");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -27,8 +28,6 @@ public class GameWindow extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setFocusable(true);
-        requestFocusInWindow();
         setVisible(true);
 
         Timer timer = new Timer(200, e -> {

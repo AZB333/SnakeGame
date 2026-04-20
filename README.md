@@ -23,9 +23,8 @@ in the game are posted to the single instance event bus, that then updates the o
 
 ### Model View Controller (MVC) Pattern: 
 Since this project uses JPanel and JFrame, it uses the MVC Pattern.
-The view is the panel that is created by the GamePanel class and GameWindow class, which handle the 
-painting logic. The controller is the input handling from the user, since
-it takes the input and uses KeyListener and ActionListener to determine how to change the UI. 
-The model is the state of the snake game, 
-including the positions and states of the snake and apple. They hold data on the state of the game, and
-do not have input handling or UI logic.
+The view is the panel that is created by the GamePanel class, which handles the 
+painting logic. The controller is the InputController class, since it takes input handling from the user 
+with KeyListener to determine how to change the UI. The model is the state of the snake 
+game, including the positions and states of the snake and apple. 
+They hold data on the state of the game, and do not have input handling or UI logic.
