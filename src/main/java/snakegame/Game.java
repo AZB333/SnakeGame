@@ -11,14 +11,14 @@ import javax.swing.*;
 
 public class Game {
 
-    private static final int VIRTUAL_RIGHT_KEY_CODE = 39;
-    private static final int VIRTUAL_LEFT_KEY_CODE = 37;
-    private static final int VIRTUAL_UP_KEY_CODE = 38;
-    private static final int VIRTUAL_DOWN_KEY_CODE = 40;
-    private static final int W_KEY_CODE = 87;
-    private static final int A_KEY_CODE = 65;
-    private static final int S_KEY_CODE = 83;
-    private static final int D_KEY_CODE = 68;
+    protected static final int VIRTUAL_RIGHT_KEY_CODE = 39;
+    protected static final int VIRTUAL_LEFT_KEY_CODE = 37;
+    protected static final int VIRTUAL_UP_KEY_CODE = 38;
+    protected static final int VIRTUAL_DOWN_KEY_CODE = 40;
+    protected static final int W_KEY_CODE = 87;
+    protected static final int A_KEY_CODE = 65;
+    protected static final int S_KEY_CODE = 83;
+    protected static final int D_KEY_CODE = 68;
     private final RectangleFactory rectangleFactory;
     private final Random random = new Random();
     private final EventBus eventBus = EventBus.getInstance();

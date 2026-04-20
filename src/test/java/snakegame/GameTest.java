@@ -27,8 +27,7 @@ class GameTest {
         Snake snake = new Snake(rectangleFactory);
         Game game = new Game(snake, rectangleFactory);
         snake.setHeadPosition(0, 0);
-        snake.setDirection(Direction.LEFT);
-
+        game.handleInput(Game.W_KEY_CODE);
         game.update();
         assertTrue(game.isOver());
     }
