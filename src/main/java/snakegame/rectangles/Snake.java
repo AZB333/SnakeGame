@@ -14,7 +14,7 @@ public class Snake {
     private static final int START_POSITION_X_Y = 250;
     public static final int WINDOW_STRIDE_IN_PIXELS = 25;
     public static final Direction STARTING_DIRECTION = Direction.RIGHT;
-    private static final int STARTING_BODY_SIZE = 3;
+    protected static final int STARTING_BODY_SIZE = 3;
     private ArrayList<GameRectangle> body;
     private final RectangleFactory rectangleFactory;
 

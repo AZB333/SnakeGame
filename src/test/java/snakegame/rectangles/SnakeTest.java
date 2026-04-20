@@ -16,6 +16,7 @@ class SnakeTest {
 
         assert(snake.getScore() == 0);
         assert(Objects.equals(snake.getDirection(), Snake.STARTING_DIRECTION));
+        assert(snake.getBody().size() == Snake.STARTING_BODY_SIZE);
     }
 
     @Test
@@ -72,11 +73,17 @@ class SnakeTest {
     }
 
     @Test
-    void testSnakeCollidesWithApple(){
+    void testAddPartAddsToScore(){
         Snake snake = new Snake(rectangleFactory);
-
-
-
+        assert(snake.getScore() == 0);
+        snake.addPart();
+        assert(snake.getScore() == 1);
     }
 
+    @Test
+    void testSnakeColor(){
+        Snake snake = new Snake(rectangleFactory);
+        GameRectangle head = snake.getBody().getFirst();
+        assert(head.getColor() == SnakeSegment.color);
+    }
 }
