@@ -30,4 +30,8 @@ public class EventBus {
             observer.update(event);
         }
     }
+
+    public void clear() {
+        observers.clear();
+    }
 }
