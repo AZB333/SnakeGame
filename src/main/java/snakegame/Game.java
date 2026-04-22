@@ -5,9 +5,7 @@ import snakegame.rectangles.GameRectangle;
 import snakegame.rectangles.RectangleFactory;
 import snakegame.rectangles.Snake;
 
-import java.awt.event.*;
 import java.util.Random;
-import javax.swing.*;
 
 public class Game {
 
@@ -30,7 +28,7 @@ public class Game {
     }
 
     public Boolean isOver() {
-        boolean over = snake.isCollision();
+        boolean over = snake.collisionOccurred();
         if (over) {
             eventBus.publish(GameEvent.GAME_OVER);
         }

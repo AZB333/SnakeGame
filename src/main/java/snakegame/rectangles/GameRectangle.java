@@ -5,7 +5,7 @@ abstract public class GameRectangle {
     private int posx;
     private int posy;
 
-    public static final int rec_width = 20;
+    public static final int rec_width = 20; //snake body slightly less than grid size
     public static final int rec_height = 20;
 
     public GameRectangle(int posx, int posy) {
@@ -14,10 +14,7 @@ abstract public class GameRectangle {
     }
 
     public boolean intersects(GameRectangle obstacle) {
-        /*
-        return true if x and y coordinates of
-        this and obstacle are the same
-        */
+        // return true if x and y coordinates of this and obstacle are the same
         return posx == obstacle.getPosx() && posy == obstacle.getPosy();
     }
 

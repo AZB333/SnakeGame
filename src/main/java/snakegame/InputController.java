@@ -1,8 +1,6 @@
 package snakegame;
 
 
-import snakegame.rectangles.Snake;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

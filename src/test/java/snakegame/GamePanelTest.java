@@ -34,8 +34,6 @@ class GamePanelTest {
         Game game = new Game(new Snake(new RectangleFactory()), new RectangleFactory());
         GamePanel panel = new GamePanel(game);
 
-        panel.setTesting(true); // prevent UI side effects
-
         panel.update(GameEvent.SNAKE_MOVED);
 
         assertNotNull(panel);
