@@ -15,7 +15,7 @@ class AppleTest {
 
         assert(apple.getPosx() == posx);
         assert(apple.getPosy() == posy);
-        assert(apple.getColor() == Color.red);
+        assert(apple.getType() == RectangleType.APPLE);
     }
 
 }

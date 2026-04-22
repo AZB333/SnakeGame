@@ -1,6 +1,7 @@
 package snakegame;
 
 import snakegame.rectangles.GameRectangle;
+import snakegame.rectangles.RectangleType;
 import snakegame.rectangles.Snake;
 
 import javax.swing.*;
@@ -50,17 +51,24 @@ public class GamePanel extends JPanel implements IObserver {
         testing = isTesting;
     }
 
+    private Color getColorForType(RectangleType type) {
+        return switch (type) {
+            case SNAKE -> Color.GREEN;
+            case APPLE -> Color.RED;
+        };
+    }
+
     public void drawSnake(Graphics graphics, Snake snake) {
         Graphics2D graphics2D = (Graphics2D) graphics;
 
         if (snake.getApple() != null) {
-            graphics2D.setPaint(snake.getApple().getColor());
+            graphics2D.setPaint(getColorForType(RectangleType.APPLE));
             graphics2D.drawRect(snake.getApple().getPosx(), snake.getApple().getPosy(), rec_width, rec_height);
             graphics2D.fillRect(snake.getApple().getPosx(),snake.getApple().getPosy(),rec_width,rec_height);
         }
 
         for (GameRectangle rec: snake.getBody()) {
-            graphics2D.setPaint(rec.getColor());
+            graphics2D.setPaint(getColorForType(RectangleType.SNAKE));
             graphics2D.drawRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
             graphics2D.fillRect(rec.getPosx(),rec.getPosy(),rec_width,rec_height);
         }

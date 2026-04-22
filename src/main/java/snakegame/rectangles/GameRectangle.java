@@ -1,7 +1,5 @@
 package snakegame.rectangles;
 
-import java.awt.*;
-
 abstract public class GameRectangle {
 
     private int posx;
@@ -23,8 +21,6 @@ abstract public class GameRectangle {
         return posx == obstacle.getPosx() && posy == obstacle.getPosy();
     }
 
-    public abstract Color getColor();
-
     public int getPosx() {
         return posx;
     }
@@ -39,5 +35,7 @@ abstract public class GameRectangle {
 
     public void setPosx(int newPosx) {posx = newPosx;}
     public void setPosy(int newPosy) {posy = newPosy;}
+
+    public abstract RectangleType getType();
 
 }

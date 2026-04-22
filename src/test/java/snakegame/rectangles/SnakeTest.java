@@ -84,6 +84,6 @@ class SnakeTest {
     void testSnakeColor(){
         Snake snake = new Snake(rectangleFactory);
         GameRectangle head = snake.getBody().getFirst();
-        assert(head.getColor() == SnakeSegment.color);
+        assert(head.getType() == RectangleType.SNAKE);
     }
 }
