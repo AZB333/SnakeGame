@@ -13,10 +13,10 @@ public class GamePanel extends JPanel implements IObserver {
 
     private static final Color SNAKE_BACKGROUND_COLOR = new Color(43, 86, 137);
     private final Game game;
+    private boolean testing = false;
 
     public GamePanel(Game game) {
         this.game = game;
-        EventBus.getInstance().attach(this);
         setBackground(Color.BLACK);
     }
 
@@ -44,6 +44,10 @@ public class GamePanel extends JPanel implements IObserver {
         if (game != null && game.getSnake() != null) {
             drawSnake(graphics, game.getSnake());
         }
+    }
+
+    public void setTesting(boolean isTesting){
+        testing = isTesting;
     }
 
     public void drawSnake(Graphics graphics, Snake snake) {
