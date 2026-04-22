@@ -20,6 +20,7 @@ public class GameWindow extends JFrame {
         InputController inputController = new InputController(game);
         add(panel);
         addKeyListener(inputController);
+        EventBus.getInstance().attach(panel);
 
         setTitle("Snake Game");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);

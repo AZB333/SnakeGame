@@ -63,8 +63,8 @@ public class Snake {
     }
 
     public boolean checkOutOfBounds(GameRectangle snakeHead){
-        int playableWidth = GameWindow.WINDOW_WIDTH;
-        int playableHeight = GameWindow.WINDOW_HEIGHT;
+        int playableWidth = GameWindow.WINDOW_WIDTH - WINDOW_STRIDE_IN_PIXELS;
+        int playableHeight = GameWindow.WINDOW_HEIGHT - WINDOW_STRIDE_IN_PIXELS * 2; //account for top header
         return snakeHead.getPosx() > playableWidth || snakeHead.getPosx() < 0 || snakeHead.getPosy() > playableHeight || snakeHead.getPosy() < 0;
     }
     public boolean isCollision() {
